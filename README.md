@@ -4,7 +4,7 @@
 
 **GitHub:** [https://github.com/Zachrist321/facemask_classifier_mbnv2](https://github.com/Zachrist321/facemask_classifier_mbnv2)
 
-**Report (PDF):** [docs/Face_Mask_Classifier_Report.pdf](docs/Face_Mask_Classifier_Report.pdf)
+**Report (PDF):** [report.pdf](report.pdf)
 
 Image classification using **MobileNetV2** transfer learning on the [MAKS face mask dataset](https://www.kaggle.com/datasets/ashishjangra27/face-mask-12k-images-dataset).
 

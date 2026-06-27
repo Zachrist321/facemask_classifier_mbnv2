@@ -6,7 +6,7 @@ from pathlib import Path
 
 from fpdf import FPDF
 
-OUT = Path(__file__).parent / "docs" / "Face_Mask_Classifier_Report.pdf"
+OUT = Path(__file__).parent / "report.pdf"
 
 
 class Report(FPDF):
