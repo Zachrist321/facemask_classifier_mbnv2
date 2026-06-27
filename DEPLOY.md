@@ -46,6 +46,6 @@ streamlit run streamlit_app.py
 
 ## Troubleshooting
 
+- **TensorFlow install fails:** repo includes `.python-version` (3.11) — in Streamlit Cloud go to **Manage app → Settings → Python version → 3.11** if needed.
 - **Model not found:** ensure `face_mask_mobilenet.weights.h5` is committed and pushed (not gitignored).
-- **Build fails on TensorFlow:** `requirements.txt` uses `tensorflow-cpu` for Cloud compatibility.
 - **App sleeps:** free tier apps sleep after inactivity; first visit may take ~30s to wake.
