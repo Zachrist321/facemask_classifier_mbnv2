@@ -1,9 +1,10 @@
 # Dataset (large — keep local or use Kaggle)
 archive-4/
 
-# Training outputs
+# Training outputs (keep weights for Streamlit Cloud deploy)
 artifacts/
-face_mask_artifacts/
+face_mask_artifacts/eval/
+face_mask_artifacts/*.keras
 hf_space/staging/
 *.zip
 

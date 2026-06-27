@@ -29,7 +29,9 @@ cv_final_project/
 │   │   └── failure_cases/        # Misclassified examples for report
 ├── notebooks/train_mobilenet_colab.ipynb
 ├── src/                          # Data, model, training utilities
-├── app.py                        # Gradio deployment app
+├── streamlit_app.py              # Streamlit app (deploy this)
+├── DEPLOY.md                     # Streamlit Cloud instructions
+├── app.py                        # Legacy Gradio app (optional)
 ├── evaluate.py                   # Local evaluation
 └── find_failures.py              # Export failure cases
 ```
@@ -47,49 +49,22 @@ pip install -r requirements.txt
 python evaluate.py
 ```
 
-## Run the app (Gradio)
-
-```bash
-python app.py
-```
-
-Opens a local web UI — upload or webcam a face image for prediction.
-
-## Deploy to Hugging Face Spaces
-
-Everything is ready in `hf_space/`. One-time setup, then one command:
-
-**1. Create a token** at [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) (type: **Write**).
-
-**2. Log in** (in terminal):
+## Run the app (Streamlit)
 
 ```bash
 conda activate ml
-hf auth login
+pip install -r requirements.txt
+streamlit run streamlit_app.py
 ```
 
-**3. Deploy:**
+## Deploy on Streamlit Cloud
 
-```bash
-cd /Users/zach/python/cv_final_project
-export HF_USERNAME=your_hf_username   # e.g. zach123
-./hf_space/deploy.sh
-```
+See **[DEPLOY.md](DEPLOY.md)** for full steps:
 
-Optional: custom space name (default `face-mask-classifier`):
-
-```bash
-export HF_SPACE_NAME=my-face-mask-app
-./hf_space/deploy.sh
-```
-
-Your app will be live at:
-
-`https://huggingface.co/spaces/YOUR_USERNAME/face-mask-classifier`
-
-First build takes **5–10 minutes** (TensorFlow install on HF). Use that URL for your capstone submission.
-
-**Manual alternative:** create a new Space on [huggingface.co/new-space](https://huggingface.co/new-space) (SDK: Gradio), then upload the contents of `hf_space/staging/` after running the deploy script once locally (it creates the staging folder), or copy `app.py`, `requirements.txt`, `hf_space/README.md` → `README.md`, `src/`, and `face_mask_artifacts/`.
+1. Push repo to GitHub (include `face_mask_artifacts/face_mask_mobilenet.weights.h5`)
+2. Go to [share.streamlit.io](https://share.streamlit.io) → Create app
+3. Main file: `streamlit_app.py`
+4. Deploy → use your `*.streamlit.app` URL for submission
 
 ## Train on Colab
 

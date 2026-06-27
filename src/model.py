@@ -17,6 +17,7 @@ def build_mobilenet_classifier(
     num_classes: int = len(CLASS_NAMES),
     dropout: float = 0.3,
     unfreeze_last_n_layers: int = 0,
+    backbone_weights: str | None = "imagenet",
 ) -> tf.keras.Model:
     """
     Build MobileNetV2 with ImageNet weights.
@@ -27,7 +28,7 @@ def build_mobilenet_classifier(
     inputs = layers.Input(shape=(*IMG_SIZE, 3))
     base_model = tf.keras.applications.MobileNetV2(
         include_top=False,
-        weights="imagenet",
+        weights=backbone_weights,
         input_tensor=inputs,
         pooling=None,
     )
@@ -80,4 +81,9 @@ def save_artifacts(
 
 
 def load_model_for_inference(model_path: str | Path) -> tf.keras.Model:
-    return tf.keras.models.load_model(model_path)
+    path = Path(model_path)
+    if path.suffix == ".h5" or "weights" in path.name:
+        model = build_mobilenet_classifier(backbone_weights=None)
+        model.load_weights(path)
+        return model
+    return tf.keras.models.load_model(path)
