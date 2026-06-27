@@ -12,7 +12,7 @@ OUT = Path(__file__).parent / "docs" / "Face_Mask_Classifier_Report.pdf"
 class Report(FPDF):
     def header(self):
         self.set_font("Helvetica", "B", 10)
-        self.cell(0, 8, "Face Mask Classification - CV Capstone Project", align="C", new_x="LMARGIN", new_y="NEXT")
+        self.cell(0, 8, "Face Mask Classification - MSc AI: Computer Vision Project", align="C", new_x="LMARGIN", new_y="NEXT")
         self.ln(2)
 
     def footer(self):
@@ -49,8 +49,8 @@ def build():
 
     pdf.h1("Face Mask Classification Using MobileNetV2")
     pdf.body(
-        "Author: Zach Aye\n"
-        "Course: Computer Vision Capstone\n"
+        "Author: Zerihun Ayele Chala\n"
+        "Course: MSc AI: Computer Vision Project\n"
         "GitHub: https://github.com/Zachrist321/facemask_classifier_mbnv2\n"
         "Live App: https://facemask-classifier-mbnv2.streamlit.app\n"
         "Dataset: MAKS Face Mask Dataset (Kaggle)"
@@ -179,7 +179,7 @@ def build():
         "[2] Howard et al., MobileNetV2, arXiv:1801.04381\n"
         "[3] TensorFlow Documentation - Transfer Learning\n"
         "[4] Streamlit Documentation - Community Cloud Deployment\n"
-        "[5] Project II Guidelines - DNN Based Computer Vision Capstone"
+        "[5] Project II Guidelines - MSc AI: Computer Vision Project"
     )
 
     OUT.parent.mkdir(parents=True, exist_ok=True)

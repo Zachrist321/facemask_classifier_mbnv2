@@ -1,4 +1,4 @@
-# Face Mask Classification — CV Capstone
+# Face Mask Classification — MSc AI: Computer Vision Project
 
 **Live app:** [https://facemask-classifier-mbnv2.streamlit.app](https://facemask-classifier-mbnv2.streamlit.app)
 
