@@ -9,8 +9,11 @@ from pathlib import Path
 import numpy as np
 import streamlit as st
 import tensorflow as tf
-from PIL import Image, UnidentifiedImageError
+from PIL import Image, ImageFile, ImageOps, UnidentifiedImageError
 from tensorflow.keras import layers, models
+
+# Allow slightly truncated JPEGs from phone cameras
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 CLASS_NAMES = ("with_mask", "mask_weared_incorrect", "without_mask")
 DISPLAY = {
@@ -51,18 +54,50 @@ def load_model() -> tf.keras.Model:
     return model
 
 
+def _read_upload_bytes(uploaded) -> bytes:
+    if hasattr(uploaded, "seek"):
+        uploaded.seek(0)
+    if hasattr(uploaded, "getvalue"):
+        data = uploaded.getvalue()
+    elif hasattr(uploaded, "read"):
+        data = uploaded.read()
+    else:
+        data = bytes(uploaded)
+    if hasattr(uploaded, "seek"):
+        uploaded.seek(0)
+    return data or b""
+
+
 def open_image(uploaded) -> Image.Image | None:
     """Safely open an uploaded/camera file as RGB PIL image."""
     if uploaded is None:
         return None
+
+    data = _read_upload_bytes(uploaded)
+    if not data:
+        return None
+
+    # 1) PIL (PNG, most JPEG)
     try:
-        data = uploaded.getvalue() if hasattr(uploaded, "getvalue") else uploaded.read()
-        if not data:
-            return None
         img = Image.open(io.BytesIO(data))
         img.load()
-        return img.convert("RGB")
-    except (UnidentifiedImageError, OSError, ValueError, AttributeError):
+        img = ImageOps.exif_transpose(img)
+        if img.mode == "RGBA":
+            background = Image.new("RGB", img.size, (255, 255, 255))
+            background.paste(img, mask=img.split()[3])
+            img = background
+        elif img.mode != "RGB":
+            img = img.convert("RGB")
+        return img
+    except (UnidentifiedImageError, OSError, ValueError):
+        pass
+
+    # 2) TensorFlow decoder — robust for JPEG/JPG from phones
+    try:
+        tensor = tf.io.decode_image(data, channels=3, expand_animations=False)
+        tensor = tf.image.convert_image_dtype(tensor, dtype=tf.uint8)
+        return Image.fromarray(tensor.numpy())
+    except Exception:
         return None
 
 
@@ -163,7 +198,8 @@ def main() -> None:
         if source == "Upload image":
             uploaded_file = st.file_uploader(
                 "Choose a face photo",
-                type=["png", "jpg", "jpeg", "webp", "bmp"],
+                type=None,
+                accept_multiple_files=False,
                 label_visibility="collapsed",
             )
         else:
