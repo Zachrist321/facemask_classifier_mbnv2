@@ -1,0 +1,12 @@
+name: ml-local
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.13
+  - pip
+  - pip:
+    - streamlit>=1.51
+    - tensorflow>=2.21
+    - numpy>=2.0
+    - Pillow>=12.0

@@ -92,7 +92,16 @@ def open_image(uploaded) -> Image.Image | None:
     except (UnidentifiedImageError, OSError, ValueError):
         pass
 
-    # 2) TensorFlow decoder — robust for JPEG/JPG from phones
+    # 2) TensorFlow JPEG decoder (phone/camera JPEGs)
+    if data[:3] == b"\xff\xd8\xff":
+        try:
+            tensor = tf.io.decode_jpeg(data, channels=3)
+            tensor = tf.image.convert_image_dtype(tensor, dtype=tf.uint8)
+            return Image.fromarray(tensor.numpy())
+        except Exception:
+            pass
+
+    # 3) TensorFlow auto-detect (PNG, WEBP, etc.)
     try:
         tensor = tf.io.decode_image(data, channels=3, expand_animations=False)
         tensor = tf.image.convert_image_dtype(tensor, dtype=tf.uint8)
@@ -197,8 +206,8 @@ def main() -> None:
         uploaded_file = None
         if source == "Upload image":
             uploaded_file = st.file_uploader(
-                "Choose a face photo",
-                type=None,
+                "Choose a face photo (JPG, PNG, WEBP)",
+                type=["jpg", "jpeg", "png", "webp", "bmp", "jfif"],
                 accept_multiple_files=False,
                 label_visibility="collapsed",
             )

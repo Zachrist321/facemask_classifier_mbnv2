@@ -1,0 +1,5 @@
+# Local dev (conda activate ml) — matches your ml env
+streamlit>=1.51
+tensorflow>=2.21
+numpy>=2.0
+Pillow>=12.0

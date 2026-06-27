@@ -36,12 +36,24 @@ cv_final_project/
 └── find_failures.py              # Export failure cases
 ```
 
-## Setup
+## Setup (local — use your `ml` conda env)
+
+Libraries live in your **conda `ml` environment**, not system Python.
 
 ```bash
 conda activate ml
-pip install -r requirements.txt
+pip install -r requirements-local.txt   # optional; you likely already have these
+streamlit run streamlit_app.py
 ```
+
+Always use `python` / `streamlit` from `ml` after `conda activate ml` — **not** bare `python3`.
+
+| Where | Python | TensorFlow |
+|-------|--------|------------|
+| **Your Mac (`ml` env)** | 3.13 | 2.21 |
+| **Streamlit Cloud** | 3.11 | 2.15.1 (`requirements.txt`) |
+
+Cloud installs from `requirements.txt` on their servers — separate from your local venv.
 
 ## Evaluate locally
 
