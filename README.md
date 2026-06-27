@@ -1,5 +1,11 @@
 # Face Mask Classification — CV Capstone
 
+**Live app:** [https://facemask-classifier-mbnv2.streamlit.app](https://facemask-classifier-mbnv2.streamlit.app)
+
+**GitHub:** [https://github.com/Zachrist321/facemask_classifier_mbnv2](https://github.com/Zachrist321/facemask_classifier_mbnv2)
+
+**Report (PDF):** [docs/Face_Mask_Classifier_Report.pdf](docs/Face_Mask_Classifier_Report.pdf)
+
 Image classification using **MobileNetV2** transfer learning on the [MAKS face mask dataset](https://www.kaggle.com/datasets/ashishjangra27/face-mask-12k-images-dataset).
 
 **Problem statement:** Given a face image, the system classifies mask compliance (`with_mask`, `mask_weared_incorrect`, `without_mask`) so that public-health teams can monitor mask usage.
