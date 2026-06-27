@@ -1,0 +1,18 @@
+# Dataset (large — keep local or use Kaggle)
+archive-4/
+
+# Training outputs
+artifacts/
+face_mask_artifacts/
+hf_space/staging/
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / IDE
+.DS_Store
+.ipynb_checkpoints/
